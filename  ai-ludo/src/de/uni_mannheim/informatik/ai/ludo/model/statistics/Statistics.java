@@ -5,12 +5,14 @@
 
 package de.uni_mannheim.informatik.ai.ludo.model.statistics;
 
+import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.Intent;
+import de.uni_mannheim.informatik.ai.ludo.intent.IntentVisitor;
+import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Player;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 /**
  * The statistics class is used to store statistics specific to the game.
@@ -26,78 +28,77 @@ public class Statistics {
         return INSTANCE;
     }
 
+    private SuccessIntentVisitor successIntentVisitor;
+    private RejectIntentVisitor rejectIntentVisitor;
+
     private Statistics(){
-        rounds = new LinkedList<Round>();
+        successIntentVisitor = new SuccessIntentVisitor();
+        rejectIntentVisitor = new RejectIntentVisitor();
     }
 
-    private Queue<Round> rounds;
 
     public void writeStatistics(){
         
     }
 
-    public void successFullIntent(Intent intent){
-
+    public void successfullIntent(Intent intent){
+        intent.takeVisitor(successIntentVisitor);
     }
 
-    public void newGame(){
+    public void rejectedIntent(Intent intent){
+        intent.takeVisitor(rejectIntentVisitor);
     }
 
     public void gameWonByPlayer(Player winner){
         
     }
 
-    private class Round{
-        private Player winnerClass;
-        private Queue<SourceClassAndIntent<?>> playersWithIntents;
+    private class SuccessIntentVisitor implements IntentVisitor{
 
-        public Round(){
-            playersWithIntents = new LinkedList<SourceClassAndIntent<?>>();
+        public void processIntent(TransitionIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
-        public Player getWinner() {
-            return winnerClass;
+        public void processIntent(RollDiceIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
-        public void setWinner(Player winner) {
-            this.winnerClass = winner;
+        public void processIntent(MoveIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
-        public <T> void addSourceWithIntent(T source, Intent intent){
-            SourceClassAndIntent<T> sourceClassAndIntent = new SourceClassAndIntent<T>(source,intent);
-
+        public void processIntent(EndGameIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
-        private class SourceClassAndIntent<T>{
-            private T source;
-            private Intent intent;
-
-            public SourceClassAndIntent(T source, Intent intent){
-                this.source = source;
-                this.intent = intent;
-            }
-
-            public Intent getIntent() {
-                return intent;
-            }
-
-            public void setIntent(Intent intent) {
-                this.intent = intent;
-            }
-
-            public T getSource() {
-                return source;
-            }
-
-            public <V> V getSourceAsType(Class<V> clazz){
-                return clazz.cast(source);
-            }
-
-            public void setSource(T source) {
-                this.source = source;
-            }
-
+        public void processIntent(NewGameIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
+
+    }
+
+    private class RejectIntentVisitor implements IntentVisitor{
+
+        public void processIntent(TransitionIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void processIntent(RollDiceIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void processIntent(MoveIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void processIntent(EndGameIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void processIntent(NewGameIntent intent) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
 }

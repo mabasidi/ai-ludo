@@ -80,7 +80,7 @@ public class Game {
     private int playerIndex;
 
     public void handleIntent(Intent intent) {
-        intent.takeGameState(state);
+        intent.takeVisitor(state);
     }
 
     public void reset() {

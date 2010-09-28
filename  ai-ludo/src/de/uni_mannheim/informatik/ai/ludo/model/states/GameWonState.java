@@ -5,11 +5,11 @@
 
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.EndGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.MoveIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.NewGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.RollDiceIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 
 /**

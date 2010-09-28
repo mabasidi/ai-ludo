@@ -5,6 +5,7 @@
 
 package de.uni_mannheim.informatik.ai.ludo.intent;
 
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -19,7 +20,7 @@ public class IntentDispatcher {
 
     private Thread thread;
 
-    private ConcurrentLinkedQueue<Intent> queue;
+    private Queue<Intent> queue;
 
     private IntentDispatcher(){
         queue = new ConcurrentLinkedQueue<Intent>();

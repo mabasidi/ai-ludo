@@ -4,12 +4,12 @@
  */
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
+import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.EndGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.MoveIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.NewGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.RollDiceIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 import de.uni_mannheim.informatik.ai.ludo.model.Path;
 import de.uni_mannheim.informatik.ai.ludo.model.Player;
@@ -40,7 +40,7 @@ public class RoundFinishedState extends GameState {
         if (playerPath.allEndFieldsFull()) {
             game.setState(new GameWonState(game));
             game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.GAME_WON));
-            IntentFactory.getInstance().createAndDispatchTransitionIntent();
+            IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
             return;
         }
         game.setState(new RoundStartedState(game));
@@ -52,7 +52,7 @@ public class RoundFinishedState extends GameState {
             game.nextPlayer();
             game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.NEXT_ROUND_WITH_NEXT_PLAYER));
         }
-        IntentFactory.getInstance().createAndDispatchTransitionIntent();
+        IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
         return;
     }
 

@@ -4,12 +4,12 @@
  */
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
+import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.EndGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.MoveIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.NewGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.RollDiceIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Field;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 import de.uni_mannheim.informatik.ai.ludo.model.Path;
@@ -42,7 +42,7 @@ public class MoveablePawnsMarkedState extends GameState {
         if (markedPawns.length == 0) {
             game.setState(new RoundFinishedState(game, diceCount));
             game.fireNotificationEvent(new NotificationEvent(this, NotificationEvent.Type.NO_MOVEABLE_PAWNS));
-            IntentFactory.getInstance().createAndDispatchTransitionIntent();
+            IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
             return;
         }
         Player currentPlayer = game.getCurrentPlayer();
@@ -69,7 +69,7 @@ public class MoveablePawnsMarkedState extends GameState {
                     Pawn otherPlayersPawn = newField.takePawnFromField();
                     otherPlayersPawn.getOwner().getPath().placeOnStartField(otherPlayersPawn);
                     // Tell the player that he actually kicked a butt.
-                    currentPlayer.enemyPawnThrown(otherPlayersPawn, moveIntent);
+                    currentPlayer.enemyPawnThrownByIntent(otherPlayersPawn, moveIntent);
                 }
                 newField.placePawnOnField(p);
                 // Intent has been successfull
@@ -77,7 +77,7 @@ public class MoveablePawnsMarkedState extends GameState {
                 // Notifiy about the move
                 game.setState(new RoundFinishedState(game, diceCount));
                 game.fireNotificationEvent(new NotificationEvent(p, NotificationEvent.Type.MOVEABLE_PAWN_MOVED));
-                IntentFactory.getInstance().createAndDispatchTransitionIntent();
+                IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
                 return;
             }
         }
