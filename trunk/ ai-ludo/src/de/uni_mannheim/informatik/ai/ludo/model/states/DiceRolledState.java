@@ -4,12 +4,12 @@
  */
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
+import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.EndGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.MoveIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.NewGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.RollDiceIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Field;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 import de.uni_mannheim.informatik.ai.ludo.model.Path;
@@ -76,7 +76,7 @@ public class DiceRolledState extends GameState {
             if (attemps == 3) {
                 game.setState(new RoundFinishedState(game,diceCount));
                 game.fireNotificationEvent(new NotificationEvent(this, NotificationEvent.Type.NO_MORE_ATTEMPS));
-                IntentFactory.getInstance().createAndDispatchTransitionIntent();
+                IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
                 return;
             }
             currentPlayer.rollTheDice();
@@ -92,7 +92,7 @@ public class DiceRolledState extends GameState {
                 Pawn pawnOnField = f.takePawnFromField();
                 pawnOnField.getOwner().getPath().placeOnStartField(pawnOnField);
                 // Tell the player that he actually kicked a butt.
-                currentPlayer.enemyPawnThrown(pawnOnField, roleDiceIntent);
+                currentPlayer.enemyPawnThrownByIntent(pawnOnField, roleDiceIntent);
             }
             // Place my pawn on field
             f.placePawnOnField(ownerPawn);
@@ -103,7 +103,7 @@ public class DiceRolledState extends GameState {
         }
         game.setState(new MoveablePawnsMarkedState(game, determineMoveablePawns(currentPlayer, playerPath, diceCount),diceCount));
         game.fireNotificationEvent(new NotificationEvent(null, NotificationEvent.Type.REFRESH));
-        IntentFactory.getInstance().createAndDispatchTransitionIntent();
+        IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
     }
 
     @Override

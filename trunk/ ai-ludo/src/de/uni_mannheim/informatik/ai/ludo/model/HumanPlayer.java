@@ -5,7 +5,7 @@
 
 package de.uni_mannheim.informatik.ai.ludo.model;
 
-import de.uni_mannheim.informatik.ai.ludo.intent.Intent;
+import de.uni_mannheim.informatik.ai.ludo.intent.PlayerIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Game.Color;
 
 /**
@@ -50,15 +50,19 @@ public class HumanPlayer implements Player{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void rejectIntent(Intent intent) {
+    public void rejectIntent(PlayerIntent intent) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void successIntent(Intent intent) {
+    public void successIntent(PlayerIntent intent) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void enemyPawnThrown(Pawn enemyPawn, Intent intent) {
+    public void enemyPawnThrownByIntent(Pawn enemyPawn, PlayerIntent intent) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void gameWonByIntent(PlayerIntent intent) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

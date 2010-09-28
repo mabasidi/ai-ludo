@@ -7,7 +7,7 @@ package de.uni_mannheim.informatik.ai.ludo.intent;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 import de.uni_mannheim.informatik.ai.ludo.model.Pawn;
 import de.uni_mannheim.informatik.ai.ludo.model.Player;
-import de.uni_mannheim.informatik.ai.ludo.model.states.GameState;
+import de.uni_mannheim.informatik.ai.ludo.model.statistics.Statistics;
 
 /**
  * This class creates concrete Intents which are dispatchable by the Intent-
@@ -26,20 +26,20 @@ public class IntentFactory {
     }
 
     public Intent createMoveIntent(Game game, Pawn pawnToMove) {
-        return new MoveIntent(game, pawnToMove);
+        return new MoveIntentImpl(game, pawnToMove);
     }
 
     public Intent createRollDiceIntent(Game game, Player player) {
-        return new RollDiceIntent(game, player);
+        return new RollDiceIntentImpl(game, player);
     }
 
-    public Intent createSystemTransitionIntent() {
-        return null;
+    public Intent createTransitionIntent(Game game) {
+        return new TransitionIntentImpl(game);
     }
 
-    public void createAndDispatchTransitionIntent() {
+    public void createAndDispatchTransitionIntent(Game game) {
         IntentDispatcher dispatcher = IntentDispatcher.getInstance();
-        Intent transitionIntent = createSystemTransitionIntent();
+        Intent transitionIntent = createTransitionIntent(game);
         dispatcher.dispatchIntent(transitionIntent);
     }
 
@@ -55,41 +55,40 @@ public class IntentFactory {
         dispatcher.dispatchIntent(rollIntent);
     }
 
-    public Intent createNewGameIntent() {
-        return new NewGameIntent();
+    public Intent createNewGameIntent(Game game) {
+        return new NewGameIntentImpl(game);
     }
 
-    public void createAndDispatchNewGameIntent() {
+    public void createAndDispatchNewGameIntent(Game game) {
         IntentDispatcher dispatcher = IntentDispatcher.getInstance();
-        Intent newGameIntent = createNewGameIntent();
+        Intent newGameIntent = createNewGameIntent(game);
         dispatcher.dispatchIntent(newGameIntent);
     }
 
-    public Intent createEndGameIntent() {
-        return new EndGameIntent();
+    public Intent createEndGameIntent(Game game) {
+        return new EndGameIntentImpl(game);
     }
 
-    public void createAndDispatchEndGameIntent() {
+    public void createAndDispatchEndGameIntent(Game game) {
         IntentDispatcher dispatcher = IntentDispatcher.getInstance();
-        Intent endGameIntent = createEndGameIntent();
+        Intent endGameIntent = createEndGameIntent(game);
         dispatcher.dispatchIntent(endGameIntent);
     }
 
-    public class MoveIntent implements Intent {
-        // Target
+    private class MoveIntentImpl implements MoveIntent {
 
         private Game game;
         private Pawn pawnToMove;
         private Player player;
 
-        private MoveIntent(Game game, Pawn pawnToMove) {
+        private MoveIntentImpl(Game game, Pawn pawnToMove) {
             this.game = game;
             this.pawnToMove = pawnToMove;
             this.player = pawnToMove.getOwner();
         }
 
-        public void takeGameState(GameState gameState) {
-            gameState.processIntent(this);
+        public void takeVisitor(IntentVisitor visitor) {
+            visitor.processIntent(this);
         }
 
         public Pawn getPawnToMove() {
@@ -106,27 +105,37 @@ public class IntentFactory {
 
         public void reject() {
             player.rejectIntent(this);
+            Statistics.getInstance().rejectedIntent(this);
         }
 
         public void success() {
             player.successIntent(this);
+            Statistics.getInstance().successfullIntent(this);
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public void setPlayer(Player player) {
+            this.player = player;
         }
     }
 
-    public class RollDiceIntent implements Intent {
+    private class RollDiceIntentImpl implements RollDiceIntent {
 
         private Game game;
         private Player player;
         // dice count
         private int diceCount;
 
-        private RollDiceIntent(Game game, Player player) {
+        private RollDiceIntentImpl(Game game, Player player) {
             this.game = game;
             this.player = player;
         }
 
-        public void takeGameState(GameState gameState) {
-            gameState.processIntent(this);
+        public void takeVisitor(IntentVisitor visitor) {
+            visitor.processIntent(this);
         }
 
         public void execute() {
@@ -135,33 +144,41 @@ public class IntentFactory {
 
         public void reject() {
             player.rejectIntent(this);
+            Statistics.getInstance().rejectedIntent(this);
         }
 
         public void success() {
             player.successIntent(this);
+            Statistics.getInstance().successfullIntent(this);
         }
 
         public int getDiceCount() {
             return diceCount;
         }
 
-        public void setDiceCount(int diceCount) {
+        public void setDiceCount(int diceCount){
             this.diceCount = diceCount;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public void setPlayer(Player player) {
+            this.player = player;
         }
     }
 
-    public class TransitionIntent implements Intent {
+    private class TransitionIntentImpl implements TransitionIntent {
 
         private Game game;
-        private IntentDispatcher dispatcher;
 
-        private TransitionIntent(Game game, IntentDispatcher dispatcher) {
+        private TransitionIntentImpl(Game game) {
             this.game = game;
-            this.dispatcher = dispatcher;
         }
 
-        public void takeGameState(GameState gameState) {
-            gameState.processIntent(this);
+        public void takeVisitor(IntentVisitor visitor) {
+            visitor.processIntent(this);
         }
 
         public void execute() {
@@ -169,55 +186,61 @@ public class IntentFactory {
         }
 
         public void reject() {
-            
+            Statistics.getInstance().rejectedIntent(this);
         }
 
         public void success() {
-            
+            Statistics.getInstance().successfullIntent(this);
         }
     }
 
-    public class NewGameIntent implements Intent {
+    private class NewGameIntentImpl implements NewGameIntent {
 
-        private NewGameIntent() {
+        private Game game;
+
+        private NewGameIntentImpl(Game game) {
+            this.game = game;
         }
 
-        public void takeGameState(GameState gameState) {
-            throw new UnsupportedOperationException("Not supported yet.");
+        public void takeVisitor(IntentVisitor visitor) {
+            visitor.processIntent(this);
         }
 
         public void execute() {
-            throw new UnsupportedOperationException("Not supported yet.");
+           game.handleIntent(this);
         }
 
         public void reject() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            Statistics.getInstance().rejectedIntent(this);
         }
 
         public void success() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            Statistics.getInstance().successfullIntent(this);
         }
     }
 
-    public class EndGameIntent implements Intent {
+    private class EndGameIntentImpl implements EndGameIntent {
 
-        public EndGameIntent() {
+        private Game game;
+
+        public EndGameIntentImpl(Game game) {
+            this.game = game;
         }
 
-        public void takeGameState(GameState gameState) {
-            throw new UnsupportedOperationException("Not supported yet.");
+        public void takeVisitor(IntentVisitor visitor) {
+            visitor.processIntent(this);
         }
 
         public void execute() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            game.handleIntent(this);
         }
 
         public void reject() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            Statistics.getInstance().rejectedIntent(this);
         }
 
         public void success() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            Statistics.getInstance().successfullIntent(this);
         }
     }
 }

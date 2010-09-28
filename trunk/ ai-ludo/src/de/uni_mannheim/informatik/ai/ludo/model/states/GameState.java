@@ -4,11 +4,7 @@
  */
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.EndGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.MoveIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.NewGameIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.RollDiceIntent;
-import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.intent.IntentVisitor;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 
 /**
@@ -18,7 +14,7 @@ import de.uni_mannheim.informatik.ai.ludo.model.Game;
  * is thrown by the method validateGameState.
  * @author gtrefs
  */
-public abstract class GameState {
+public abstract class GameState implements IntentVisitor{
 
     protected Game game;
 
@@ -28,16 +24,6 @@ public abstract class GameState {
 
     public GameState() {
     }
-
-    public abstract void processIntent(TransitionIntent intent);
-
-    public abstract void processIntent(RollDiceIntent intent);
-
-    public abstract void processIntent(MoveIntent intent);
-
-    public abstract void processIntent(EndGameIntent intent);
-
-    public abstract void processIntent(NewGameIntent intent);
 
     public void setGame(Game game) {
         this.game = game;

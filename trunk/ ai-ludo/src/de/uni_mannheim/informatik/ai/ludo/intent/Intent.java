@@ -5,8 +5,6 @@
 
 package de.uni_mannheim.informatik.ai.ludo.intent;
 
-import de.uni_mannheim.informatik.ai.ludo.model.states.GameState;
-
 /**
  * The intent is an intended acion of a player. This means, the correcponding 
  * action has not yet been validated by the game logic and therefore was not
@@ -22,7 +20,7 @@ import de.uni_mannheim.informatik.ai.ludo.model.states.GameState;
  * @author gtrefs
  */
 public interface Intent {
-    public void takeGameState(GameState gameState);
+    public void takeVisitor(IntentVisitor visitor);
     public void execute();
     public void reject();
     public void success();
