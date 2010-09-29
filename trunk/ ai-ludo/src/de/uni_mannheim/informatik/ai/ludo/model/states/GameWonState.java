@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -20,9 +19,9 @@ import de.uni_mannheim.informatik.ai.ludo.model.statistics.Statistics;
  *
  * @author gtrefs
  */
-public class GameWonState extends GameState{
+public class GameWonState extends GameState {
 
-    public GameWonState(Game game){
+    public GameWonState(Game game) {
         super(game);
     }
 
@@ -37,9 +36,9 @@ public class GameWonState extends GameState{
         int gamesPlayed = game.getGamesPlayed();
         int maxGames = Preferences.getInstance().getMaxRound();
         // 1. simulation
-        if(Preferences.getInstance().isInSimulationMode()){
+        if (Preferences.getInstance().isInSimulationMode()) {
             // 1.1 End this game
-            if(gamesPlayed >= maxGames){
+            if (gamesPlayed >= maxGames) {
                 game.setState(new EndState(game));
                 game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.END_GAME));
                 IntentFactory.getInstance().createAndDispatchEndGameIntent(game);
@@ -67,15 +66,16 @@ public class GameWonState extends GameState{
 
     @Override
     public void processIntent(EndGameIntent intent) {
-       game.setState(new EndState(game));
-       IntentFactory.getInstance().createAndDispatchEndGameIntent(game);
+        intent.success();
+        game.setState(new EndState(game));
+        IntentFactory.getInstance().createAndDispatchEndGameIntent(game);
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
+        intent.success();
         game.reset();
         game.setState(new InitState(game));
         IntentFactory.getInstance().createAndDispatchNewGameIntent(game);
     }
-
 }

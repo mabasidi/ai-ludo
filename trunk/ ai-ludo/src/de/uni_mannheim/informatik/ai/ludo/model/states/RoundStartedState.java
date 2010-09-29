@@ -40,7 +40,6 @@ public class RoundStartedState extends GameState {
     }
 
     public void processIntent(RollDiceIntent roleDiceIntent) {
-        throw new UnsupportedOperationException();
     }
 
     public void processIntent(MoveIntent moveIntent) {
