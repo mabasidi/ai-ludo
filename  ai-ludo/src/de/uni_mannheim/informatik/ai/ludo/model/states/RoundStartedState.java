@@ -30,9 +30,6 @@ public class RoundStartedState extends GameState {
         super(game);
     }
 
-    public RoundStartedState() {
-    }
-
     public void processIntent(TransitionIntent intent) {
         // intent has been successfull
         intent.success();
@@ -47,16 +44,13 @@ public class RoundStartedState extends GameState {
     }
 
     public void processIntent(MoveIntent moveIntent) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void processIntent(EndGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

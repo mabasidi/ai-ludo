@@ -19,7 +19,7 @@ import java.util.EventObject;
 public class RequestForUserInputEvent extends EventObject{
 
     public enum Type {
-        REQUEST_FOR_MOVE,REQUEST_FOR_ROLLING_THE_DICE;
+        REQUEST_FOR_MOVE,REQUEST_FOR_ROLLING_THE_DICE,INIT_DATA;
     }
 
     private Type actType=Type.REQUEST_FOR_MOVE;

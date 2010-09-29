@@ -51,7 +51,6 @@ public class MoveablePawnsMarkedState extends GameState {
 
     @Override
     public void processIntent(RollDiceIntent roleDiceIntent) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -88,11 +87,9 @@ public class MoveablePawnsMarkedState extends GameState {
 
     @Override
     public void processIntent(EndGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

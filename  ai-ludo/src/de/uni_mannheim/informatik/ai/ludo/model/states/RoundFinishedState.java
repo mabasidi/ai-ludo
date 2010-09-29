@@ -30,6 +30,7 @@ public class RoundFinishedState extends GameState {
 
     @Override
     public void processIntent(TransitionIntent intent) {
+        intent.success();
         /*
          * 1. All pawns of currentPlayer at end fields --> game is won by current player
          * 2. If diceCount == 6 --> repeat round with same player
@@ -58,21 +59,17 @@ public class RoundFinishedState extends GameState {
 
     @Override
     public void processIntent(RollDiceIntent roleDiceIntent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(MoveIntent moveIntent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(EndGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

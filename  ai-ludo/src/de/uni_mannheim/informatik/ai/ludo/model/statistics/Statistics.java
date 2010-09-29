@@ -37,9 +37,11 @@ public class Statistics {
     }
 
 
-    public void writeStatistics(){
+    public void writeOut(){
         
     }
+
+
 
     public void successfullIntent(Intent intent){
         intent.takeVisitor(successIntentVisitor);
@@ -49,7 +51,7 @@ public class Statistics {
         intent.takeVisitor(rejectIntentVisitor);
     }
 
-    public void gameWonByPlayer(Player winner){
+    public void gameWonByPlayer(Intent intent, Player winner){
         
     }
 

@@ -31,9 +31,6 @@ public class DiceRolledState extends GameState {
         super(game);
     }
 
-    public DiceRolledState() {
-    }
-
     @Override
     public void processIntent(TransitionIntent intent) {
         throw new UnsupportedOperationException();
@@ -108,16 +105,13 @@ public class DiceRolledState extends GameState {
 
     @Override
     public void processIntent(MoveIntent moveIntent) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void processIntent(EndGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
