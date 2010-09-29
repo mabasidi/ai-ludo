@@ -8,11 +8,11 @@ import de.uni_mannheim.informatik.ai.ludo.intent.IntentVisitor;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
 
 /**
- * GameState which is to be satisfied by any future gamestate.
- * Future game state is the game's current state plus the step the player wants
- * to do. If the next state would be invalid, a InvalidFutureGameStateException
- * is thrown by the method validateGameState.
+ * The GameState class is the abstract super class of all game state classes.
+ * It implements the {@link de.uni_mannheim.informatik.ai.ludo.intent.IntentVisitor IntentVisitor} interface and therfore is able to visit any Intent which emerges within the game.
+ * Further, the GameState represents abastract State class of the State Pattern. The next game state is determined by the current game state and the intent which occurs.
  * @author gtrefs
+ * {@see http://en.wikipedia.org/wiki/State_pattern State Pattern}
  */
 public abstract class GameState implements IntentVisitor{
 
@@ -22,13 +22,17 @@ public abstract class GameState implements IntentVisitor{
         this.game = game;
     }
 
-    public GameState() {
-    }
-
+    /**
+     * Sets the Game instance.
+     * @param game the Game instance which this game state belongs to
+     */
     public void setGame(Game game) {
         this.game = game;
     }
-
+    /**
+     * Gets the Game instance.
+     * @return the game associated with this game state
+     */
     public Game getGame() {
         return game;
     }

@@ -10,6 +10,9 @@ import de.uni_mannheim.informatik.ai.ludo.intent.MoveIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.NewGameIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.RollDiceIntent;
 import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
+import de.uni_mannheim.informatik.ai.ludo.model.Game;
+import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEvent;
+import de.uni_mannheim.informatik.ai.ludo.model.statistics.Statistics;
 
 /**
  *
@@ -17,29 +20,37 @@ import de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent;
  */
 public class EndState extends GameState{
 
+    public EndState(Game game){
+        super(game);
+    }
+
     @Override
     public void processIntent(TransitionIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void processIntent(RollDiceIntent roleDiceIntent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void processIntent(MoveIntent moveIntent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void processIntent(EndGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // Do some clean up.
+        game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.START_WRITING_STATISTICS));
+        Statistics.getInstance().writeOut();
+        game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.END_WRITING_STATISTICS));
+        // Tell the game, that all is over
+        game.endGame();
     }
 
     @Override
     public void processIntent(NewGameIntent intent) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

@@ -79,6 +79,25 @@ public class Game {
     private Player currentPlayer;
     private int playerIndex;
 
+    // How many games already played ?
+    private int gamesPlayed = 0;
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public void increaseGamesPlayed() {
+        gamesPlayed++;
+    }
+
+    public void endGame(){
+        // Some crucial cleanup
+    }
+
+    public void start(){
+        // Some starting mehtods
+    }
+
     public void handleIntent(Intent intent) {
         intent.takeVisitor(state);
     }
