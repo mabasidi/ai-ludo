@@ -33,7 +33,6 @@ public class DiceRolledState extends GameState {
 
     @Override
     public void processIntent(TransitionIntent intent) {
-        throw new UnsupportedOperationException();
     }
 
     private Pawn[] determineMoveablePawns(Player p, Path playerPath, int diceCount) {

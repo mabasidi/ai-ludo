@@ -28,6 +28,7 @@ public class InitState extends GameState{
 
     @Override
     public void processIntent(TransitionIntent intent) {
+        intent.success();
         game.setState(new RoundStartedState(game));
         IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
     }
@@ -49,6 +50,7 @@ public class InitState extends GameState{
 
     @Override
     public void processIntent(NewGameIntent intent) {
+        intent.success();
         game.fireRequestForUserInputEvent(new RequestForUserInputEvent(game, RequestForUserInputEvent.Type.INIT_DATA));
     }
 

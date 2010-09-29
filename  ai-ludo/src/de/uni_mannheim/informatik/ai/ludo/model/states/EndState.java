@@ -41,6 +41,7 @@ public class EndState extends GameState{
 
     @Override
     public void processIntent(EndGameIntent intent) {
+        intent.success();
         // Do some clean up.
         game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.START_WRITING_STATISTICS));
         Statistics.getInstance().writeOut();
