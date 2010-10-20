@@ -1,8 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model.statistics;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -58,23 +69,23 @@ public class Statistics {
     private class SuccessIntentVisitor implements IntentVisitor{
 
         public void processIntent(TransitionIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+           
         }
 
         public void processIntent(RollDiceIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(MoveIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(EndGameIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(NewGameIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+         
         }
 
     }
@@ -82,23 +93,23 @@ public class Statistics {
     private class RejectIntentVisitor implements IntentVisitor{
 
         public void processIntent(TransitionIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(RollDiceIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(MoveIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(EndGameIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         public void processIntent(NewGameIntent intent) {
-            throw new UnsupportedOperationException("Not supported yet.");
+           
         }
 
     }

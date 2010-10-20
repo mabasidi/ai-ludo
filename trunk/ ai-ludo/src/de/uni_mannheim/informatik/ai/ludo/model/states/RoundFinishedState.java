@@ -1,7 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -19,18 +31,18 @@ import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEvent;
  *
  * @author gtrefs
  */
-public class RoundFinishedState extends GameState {
+public class RoundFinishedState implements GameState {
 
     private int diceCount;
 
-    public RoundFinishedState(Game game, int diceCount) {
-        super(game);
+    public RoundFinishedState(int diceCount) {
         this.diceCount = diceCount;
     }
 
     @Override
     public void processIntent(TransitionIntent intent) {
         intent.success();
+        Game game = intent.getTarget();
         /*
          * 1. All pawns of currentPlayer at end fields --> game is won by current player
          * 2. If diceCount == 6 --> repeat round with same player
@@ -39,12 +51,12 @@ public class RoundFinishedState extends GameState {
         Player currentPlayer = game.getCurrentPlayer();
         Path playerPath = currentPlayer.getPath();
         if (playerPath.allEndFieldsFull()) {
-            game.setState(new GameWonState(game));
+            game.setState(new GameWonState());
             game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.GAME_WON));
             IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
             return;
         }
-        game.setState(new RoundStartedState(game));
+        game.setState(new RoundStartedState());
         if (diceCount == 6) {
             // Same player
             game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.NEXT_ROUND_WITH_SAME_PLAYER));

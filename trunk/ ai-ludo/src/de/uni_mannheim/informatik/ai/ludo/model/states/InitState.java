@@ -1,8 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -20,16 +31,13 @@ import de.uni_mannheim.informatik.ai.ludo.model.events.RequestForUserInputEvent;
  * After the initial input is provided this game state advances to the {@link de.uni_mannheim.informatik.ai.ludo.model.states.RoundStartedState RoundStartedState} if a {@link de.uni_mannheim.informatik.ai.ludo.intent.TransitionIntent TransitionIntent} occurs.
  * @author gtrefs
  */
-public class InitState extends GameState{
-
-    public InitState(Game game){
-        super(game);
-    }
-
+public class InitState implements GameState{
+    
     @Override
     public void processIntent(TransitionIntent intent) {
         intent.success();
-        game.setState(new RoundStartedState(game));
+        Game game = intent.getTarget();
+        game.setState(new RoundStartedState());
         IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
     }
 
@@ -51,6 +59,8 @@ public class InitState extends GameState{
     @Override
     public void processIntent(NewGameIntent intent) {
         intent.success();
+        Game game = intent.getTarget();
+        game.reset();
         game.fireRequestForUserInputEvent(new RequestForUserInputEvent(game, RequestForUserInputEvent.Type.INIT_DATA));
     }
 

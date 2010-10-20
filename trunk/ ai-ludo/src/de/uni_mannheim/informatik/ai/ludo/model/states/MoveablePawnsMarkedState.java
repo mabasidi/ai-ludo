@@ -1,7 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -21,17 +33,12 @@ import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEvent;
  *
  * @author gtrefs
  */
-public class MoveablePawnsMarkedState extends GameState {
+public class MoveablePawnsMarkedState implements GameState {
 
     private Pawn[] markedPawns;
     private int diceCount;
 
-    public MoveablePawnsMarkedState(Game game) {
-        super(game);
-    }
-
-    public MoveablePawnsMarkedState(Game game, Pawn[] markedPawns, int diceCount) {
-        super(game);
+    public MoveablePawnsMarkedState(Pawn[] markedPawns, int diceCount) {
         this.markedPawns = markedPawns;
         this.diceCount = diceCount;
     }
@@ -39,9 +46,10 @@ public class MoveablePawnsMarkedState extends GameState {
     @Override
     public void processIntent(TransitionIntent intent) {
         intent.success();
+        Game game = intent.getTarget();
         if (markedPawns.length == 0) {
-            game.setState(new RoundFinishedState(game, diceCount));
-            game.fireNotificationEvent(new NotificationEvent(this, NotificationEvent.Type.NO_MOVEABLE_PAWNS));
+            game.setState(new RoundFinishedState(diceCount));
+            game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.NO_MOVEABLE_PAWNS));
             IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
             return;
         }
@@ -55,12 +63,16 @@ public class MoveablePawnsMarkedState extends GameState {
 
     @Override
     public void processIntent(MoveIntent moveIntent) {
+        Game game = moveIntent.getTarget();
         Pawn pawnToMove = moveIntent.getPawnToMove();
         Player currentPlayer = pawnToMove.getOwner();
         for (Pawn p : markedPawns) {
             if (pawnToMove.equals(p)) {
                 Path playerPath = game.getCurrentPlayer().getPath();
                 Field currentField = playerPath.getFieldOfPawn(p);
+                // Take pawn from current field
+                currentField.takePawnFromField();
+                // New field
                 int newIndex = playerPath.getPathIndexOfField(currentField) + diceCount;
                 Field newField = playerPath.getFieldByIndex(newIndex);
                 // Hit Test !
@@ -69,18 +81,24 @@ public class MoveablePawnsMarkedState extends GameState {
                     otherPlayersPawn.getOwner().getPath().placeOnStartField(otherPlayersPawn);
                     // Tell the player that he actually kicked a butt.
                     currentPlayer.enemyPawnThrownByIntent(otherPlayersPawn, moveIntent);
+                    // Tell the view the about the lucky message
+                    game.fireNotificationEvent(new NotificationEvent(otherPlayersPawn, NotificationEvent.Type.ENEMY_PAWN_THROWN));
                 }
+
                 newField.placePawnOnField(p);
                 // Intent has been successfull
                 moveIntent.success();
                 // Notifiy about the move
-                game.setState(new RoundFinishedState(game, diceCount));
-                game.fireNotificationEvent(new NotificationEvent(p, NotificationEvent.Type.MOVEABLE_PAWN_MOVED));
+                game.setState(new RoundFinishedState(diceCount));
+                game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.MOVEABLE_PAWN_MOVED));
                 IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
                 return;
             }
         }
         // No moveable pawn selected.
+        moveIntent.reject();
+        // Notify the view
+        game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.TRIED_TO_MOVE_NONMOVEABLE_PAWN));
         // Do it once again.
         game.getCurrentPlayer().movePawn();
     }

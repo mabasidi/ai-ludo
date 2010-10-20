@@ -14,12 +14,23 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package de.uni_mannheim.informatik.ai.ludo.model.statistics;
+package de.uni_mannheim.informatik.ai.ludo.view;
+
+import de.uni_mannheim.informatik.ai.ludo.model.Game;
 
 /**
- *
+ * This interface is to be implemented by all classes which want to display the {@link de.uni_mannheim.informatik.ai.ludo.model.Game Game}.
  * @author gtrefs
  */
-public interface StatisticsOutWriter {
+public interface View {
+    /**
+     * Called at init. Enables initialization issues.
+     * @param game Game instance
+     */
+    public void init(Game game);
 
+    /**
+     * Called before the application stops.
+     */
+    public void shutdown();
 }

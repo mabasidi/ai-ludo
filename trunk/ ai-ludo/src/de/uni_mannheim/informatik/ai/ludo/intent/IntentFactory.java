@@ -1,7 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.intent;
 
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
@@ -120,14 +132,16 @@ public class IntentFactory {
         public void setPlayer(Player player) {
             this.player = player;
         }
+
+        public Game getTarget() {
+            return game;
+        }
     }
 
     private class RollDiceIntentImpl implements RollDiceIntent {
 
         private Game game;
         private Player player;
-        // dice count
-        private int diceCount;
 
         private RollDiceIntentImpl(Game game, Player player) {
             this.game = game;
@@ -152,20 +166,16 @@ public class IntentFactory {
             Statistics.getInstance().successfullIntent(this);
         }
 
-        public int getDiceCount() {
-            return diceCount;
-        }
-
-        public void setDiceCount(int diceCount){
-            this.diceCount = diceCount;
-        }
-
         public Player getPlayer() {
             return player;
         }
 
         public void setPlayer(Player player) {
             this.player = player;
+        }
+
+        public Game getTarget() {
+            return game;
         }
     }
 
@@ -192,6 +202,10 @@ public class IntentFactory {
         public void success() {
             Statistics.getInstance().successfullIntent(this);
         }
+
+        public Game getTarget() {
+            return game;
+        }
     }
 
     private class NewGameIntentImpl implements NewGameIntent {
@@ -217,6 +231,10 @@ public class IntentFactory {
         public void success() {
             Statistics.getInstance().successfullIntent(this);
         }
+
+        public Game getTarget() {
+            return game;
+        }
     }
 
     private class EndGameIntentImpl implements EndGameIntent {
@@ -241,6 +259,10 @@ public class IntentFactory {
 
         public void success() {
             Statistics.getInstance().successfullIntent(this);
+        }
+
+        public Game getTarget() {
+            return game;
         }
     }
 }
