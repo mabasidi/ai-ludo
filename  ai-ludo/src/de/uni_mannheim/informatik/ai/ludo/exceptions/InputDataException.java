@@ -15,19 +15,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.uni_mannheim.informatik.ai.ludo.model;
-
-import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
+package de.uni_mannheim.informatik.ai.ludo.exceptions;
 
 /**
  *
  * @author gtrefs
  */
-public class StartField extends ColorField{
+public class InputDataException extends Exception {
 
-    @Override
-    public void takeRenderer(Renderer renderer) {
-        renderer.render(this);
+    /**
+     * Creates a new instance of <code>InputDataException</code> without detail message.
+     */
+    public InputDataException() {
     }
 
+
+    /**
+     * Constructs an instance of <code>InputDataException</code> with the specified detail message.
+     * @param msg the detail message.
+     */
+    public InputDataException(String msg) {
+        super(msg);
+    }
 }

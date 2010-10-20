@@ -1,7 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model.states;
 
 import de.uni_mannheim.informatik.ai.ludo.intent.EndGameIntent;
@@ -15,7 +27,6 @@ import de.uni_mannheim.informatik.ai.ludo.model.Game;
 import de.uni_mannheim.informatik.ai.ludo.model.Path;
 import de.uni_mannheim.informatik.ai.ludo.model.Pawn;
 import de.uni_mannheim.informatik.ai.ludo.model.Player;
-import de.uni_mannheim.informatik.ai.ludo.model.StartField;
 import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEvent;
 import java.util.ArrayList;
 
@@ -23,13 +34,9 @@ import java.util.ArrayList;
  *
  * @author gtrefs
  */
-public class DiceRolledState extends GameState {
+public class DiceRolledState implements GameState {
 
     private int attemps = 0;
-
-    public DiceRolledState(Game game) {
-        super(game);
-    }
 
     @Override
     public void processIntent(TransitionIntent intent) {
@@ -40,6 +47,7 @@ public class DiceRolledState extends GameState {
         Pawn[] playerPawns = p.getPawns();
 
         for (Pawn pawn : playerPawns) {
+            if(playerPath.isOnStartField(pawn)) continue;
             Field pawnField = playerPath.getFieldOfPawn(pawn);
             int fieldIndex = playerPath.getPathIndexOfField(pawnField);
             int nextFieldIndex = fieldIndex + diceCount;
@@ -58,9 +66,11 @@ public class DiceRolledState extends GameState {
     @Override
     public void processIntent(RollDiceIntent roleDiceIntent) {
         // Intent arrived
-        // Within this state the intnent is valid.
+        // Get the game
+        Game game = roleDiceIntent.getTarget();
+        // Within this state the intent is valid.
         // Increase attempt count, if the dice number was not 6.
-        int diceCount = roleDiceIntent.getDiceCount();
+        int diceCount = game.getDice().getCount();
         if (diceCount != 6) {
             attemps++;
         }
@@ -68,10 +78,10 @@ public class DiceRolledState extends GameState {
         roleDiceIntent.success();
         Player currentPlayer = game.getCurrentPlayer();
         Path playerPath = currentPlayer.getPath();
-        if (diceCount != 6 && playerPath.noPawnOnIntermediatePathFields()) {
+        if (diceCount != 6 && playerPath.noPawnOnBoardFields()) {
             if (attemps == 3) {
-                game.setState(new RoundFinishedState(game,diceCount));
-                game.fireNotificationEvent(new NotificationEvent(this, NotificationEvent.Type.NO_MORE_ATTEMPS));
+                game.setState(new RoundFinishedState(diceCount));
+                game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.NO_MORE_ATTEMPS));
                 IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
                 return;
             }
@@ -80,7 +90,7 @@ public class DiceRolledState extends GameState {
         }
         if (diceCount == 6 && playerPath.beginFieldNotPossessedByAnotherOwnerPawn() && playerPath.isAtLeastOneStartFieldFull()) {
             // Take pawn and place it on the beginField
-            StartField s = playerPath.getFullStartField();
+            Field s = playerPath.getFullStartField();
             Pawn ownerPawn = s.takePawnFromField();
             Field f = playerPath.getBeginField();
             // Hit check !
@@ -89,6 +99,7 @@ public class DiceRolledState extends GameState {
                 pawnOnField.getOwner().getPath().placeOnStartField(pawnOnField);
                 // Tell the player that he actually kicked a butt.
                 currentPlayer.enemyPawnThrownByIntent(pawnOnField, roleDiceIntent);
+                game.fireNotificationEvent(new NotificationEvent(pawnOnField, NotificationEvent.Type.PAWN_ENTERED_THREW_ENEMY_PAWN));
             }
             // Place my pawn on field
             f.placePawnOnField(ownerPawn);
@@ -97,8 +108,8 @@ public class DiceRolledState extends GameState {
             currentPlayer.rollTheDice();
             return;
         }
-        game.setState(new MoveablePawnsMarkedState(game, determineMoveablePawns(currentPlayer, playerPath, diceCount),diceCount));
-        game.fireNotificationEvent(new NotificationEvent(null, NotificationEvent.Type.REFRESH));
+        game.setState(new MoveablePawnsMarkedState(determineMoveablePawns(currentPlayer, playerPath, diceCount),diceCount));
+        game.fireNotificationEvent(new NotificationEvent(game, NotificationEvent.Type.REFRESH));
         IntentFactory.getInstance().createAndDispatchTransitionIntent(game);
     }
 

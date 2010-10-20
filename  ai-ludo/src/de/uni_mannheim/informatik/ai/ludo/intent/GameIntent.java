@@ -15,19 +15,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.uni_mannheim.informatik.ai.ludo.model;
+package de.uni_mannheim.informatik.ai.ludo.intent;
 
-import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
+import de.uni_mannheim.informatik.ai.ludo.model.Game;
 
 /**
  *
  * @author gtrefs
  */
-public class StartField extends ColorField{
-
-    @Override
-    public void takeRenderer(Renderer renderer) {
-        renderer.render(this);
-    }
+public interface GameIntent extends Intent<Game>{
 
 }

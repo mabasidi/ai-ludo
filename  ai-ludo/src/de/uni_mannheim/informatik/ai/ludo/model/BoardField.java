@@ -23,7 +23,7 @@ import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
  *
  * @author gtrefs
  */
-public class StartField extends ColorField{
+public class BoardField extends Field{
 
     @Override
     public void takeRenderer(Renderer renderer) {

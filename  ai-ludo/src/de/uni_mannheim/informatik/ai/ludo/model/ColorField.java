@@ -17,17 +17,19 @@
 
 package de.uni_mannheim.informatik.ai.ludo.model;
 
-import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
-
 /**
- *
+ * This class represents a field which is specific to a {@link de.uni_mannheim.informatik.ai.ludo.model.Game.Color Color}.
  * @author gtrefs
  */
-public class StartField extends ColorField{
+public abstract class ColorField extends Field {
 
-    @Override
-    public void takeRenderer(Renderer renderer) {
-        renderer.render(this);
+    private Game.Color color;
+
+    public Game.Color getColor(){
+        return color;
     }
 
+    public void setColor(Game.Color color){
+        this.color = color;
+    }
 }

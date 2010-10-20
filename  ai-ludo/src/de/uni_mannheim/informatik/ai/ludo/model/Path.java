@@ -1,9 +1,23 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright (C) 2010 Gregor Trefs, Dominique Ritze
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.uni_mannheim.informatik.ai.ludo.model;
 
+import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderable;
+import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,39 +33,20 @@ import java.util.List;
  * at the beginning.
  * @author gtrefs
  */
-public class Path {
+public class Path implements Renderable{
 
-    public final static int MAX_PATH_LENGTH = 44;
     private List<Field> path;
     private List<StartField> startFields;
     private List<EndField> endFields;
-    private List<Field> intermediatePathFields;
+    private List<Field> pathFieldsWithoutEndFields;
     // The player to which the path belongs to.
     private Player owner;
 
-    public Path(Player owner, List<Field> fieldsOnPath) {
-        this.owner = owner;
-        endFields = new ArrayList<EndField>();
-        intermediatePathFields = fieldsOnPath;
-        buildPath(fieldsOnPath);
-        startFields = new ArrayList<StartField>();
-        buildStartFields();
-    }
-
-    private void buildStartFields() {
-    }
-
-    /**
-     * This method builds up the path.
-     * It takes all shared fields as parameter and adds the 4 end fields to it.
-     *
-     * @param fieldsOnPath
-     */
-    private void buildPath(List<Field> fieldsOnPath) {
-        path = new ArrayList<Field>(fieldsOnPath);
-        for (int i = 0; i < 4; i++) {
-            endFields.add(new EndField());
-        }
+    Path(List<Field> pathFieldsWithoutEndFields, List<StartField> startFields, List<EndField> endFields) {
+        this.pathFieldsWithoutEndFields = pathFieldsWithoutEndFields;
+        this.startFields = startFields;
+        this.endFields = endFields;
+        this.path = new ArrayList<Field>(pathFieldsWithoutEndFields);
         path.addAll(endFields);
     }
 
@@ -60,17 +55,23 @@ public class Path {
      * the end Fields)
      * @return true - if no pawn of the player is on any field which is not a end or start field.
      */
-    public boolean noPawnOnIntermediatePathFields() {
-        boolean ret = true;
-        for (Field f : intermediatePathFields) {
-            ret &= (!f.isEmpty());
+    public boolean noPawnOnBoardFields() {
+        for (Field f : pathFieldsWithoutEndFields) {
+            if(!f.isEmpty()){
+               Pawn pawnOnField = f.getPawn();
+               for(Pawn p:owner.getPawns()){
+                   if(p.equals(pawnOnField)){
+                       return false;
+                   }
+               }
+            }
         }
-        return ret;
+        return true;
     }
 
     public boolean allEndFieldsFull() {
         boolean ret = true;
-        for (EndField e : endFields) {
+        for (Field e : endFields) {
             ret &= (!e.isEmpty());
         }
         return ret;
@@ -78,14 +79,14 @@ public class Path {
 
     public boolean isAtLeastOneStartFieldFull() {
         boolean ret = false;
-        for (StartField s : startFields) {
+        for (Field s : startFields) {
             ret |= (!s.isEmpty());
         }
         return ret;
     }
 
-    public StartField getFullStartField() {
-        for (StartField s : startFields) {
+    public Field getFullStartField() {
+        for (Field s : startFields) {
             if (!s.isEmpty()) {
                 return s;
             }
@@ -95,7 +96,7 @@ public class Path {
 
     public boolean placeOnStartField(Pawn p) {
         if (p.getOwner().equals(owner)) {
-            for (StartField s : startFields) {
+            for (Field s : startFields) {
                 if (s.isEmpty()) {
                     s.placePawnOnField(p);
                     return true;
@@ -107,7 +108,7 @@ public class Path {
     }
 
     public Field getFieldOfPawn(Pawn pawn) {
-        for (StartField s : startFields) {
+        for (Field s : startFields) {
             if (!s.isEmpty() && s.getPawn().equals(pawn)) {
                 return s;
             }
@@ -125,10 +126,18 @@ public class Path {
     }
 
     public Field getFieldByIndex(int index) {
-        if (index > MAX_PATH_LENGTH - 1) {
+        if (index > path.size() - 1) {
             return null;
         }
         return path.get(index);
+    }
+
+    public boolean isOnStartField(Pawn p){
+        boolean ret = false;
+        for(StartField s:startFields){
+            ret |= (s.getPawn()!= null && s.getPawn().equals(p));
+        }
+        return ret;
     }
 
     public boolean beginFieldNotPossessedByAnotherOwnerPawn() {
@@ -150,27 +159,16 @@ public class Path {
         return path.get(0);
     }
 
-    public List<Field> getPath() {
-        return path;
-    }
-
-    public Field getFieldOfPath(int index) {
-        return path.get(index);
-    }
-
-    public void setPath(List<Field> path) {
-        this.path = path;
-    }
-
-    public List<StartField> getStartFields() {
-        return startFields;
-    }
-
     public Player getOwner() {
         return owner;
     }
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public void takeRenderer(Renderer renderer) {
+        renderer.render(this);
     }
 }
