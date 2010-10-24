@@ -1,5 +1,9 @@
 # Introduction to the ai ludo basic source code
 
+= Page Iterations =
+
+Before getting to the interesting stuff, please not that this document is a living document. This means, the sections which are left blank will be filled out in the future. Further, some sections might change, but we try to keep the structure of the overall document constant over the time. 
+
 = Introduction =
 
 Welcome to the ai-ludo project. This project is developed under the GNU GPL 3. The developers are Dominique Ritze and Gregor Trefs, both students of the University of Mannheim. The game is being developed complementary to the lecture "Artficial Intelligence". This short wiki page should give you an overview of the basic program structure. The program itself can be found under [http://code.google.com/p/ai-ludo/source/checkout source]. Following topics are covered:
