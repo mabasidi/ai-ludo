@@ -36,7 +36,9 @@ As said in the [Introduction#Introduction Introduction], the {{{Ludo}}} class re
 This chapter is divided into subchapters according to the above responsibilities. So, we will start with exploring the control flow methods {{{start}}} and {{{exit}}}, advance to the entry point responsibility and end with the validation of user input.
 
 ==Control flow methods==
+The control flow mehtods do what they say: The control the program flow. The start method starts the application, while the exit method is called when the application exits.
 ==={{{start}}}===
+
 ==={{{exit}}}===
 ==Entry point of the application==
 ===Merging of View and Model===
