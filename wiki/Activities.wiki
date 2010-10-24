@@ -1,1 +1,6 @@
-- 20.10.2010: Meeting to discuss the best practice
+- 20.10.2010: Meeting to discuss the best practice: 
+  1. Discussion about the existing code: 
+     1.1 Clearance of questions:
+  2. Next Steps:
+     2.1 Which agents to use with Ludo?:
+  3. Next Meeting: Friday, 29. Oct. 2010
