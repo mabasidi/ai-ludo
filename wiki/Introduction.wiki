@@ -29,9 +29,9 @@ As said in the [Introduction#Introduction Introduction], the {{{Ludo}}} class re
     * [Introduction#start start]
     * [Introduction#exit exit]  
   * [Introduction#Entry_point_of_the_application Entry point of the application]
-    * Merging of View and Model
-    * Starting up the IntentDispatcher
-  * Validation of user input
+    * [Introduction#Merging_of_View_and_Model Merging of View and Model]
+    * [Introduction#Starting_up_the_IntentDispatcher Starting up the IntentDispatcher]
+  * [Introduction#Validation_of_ user_input Validation of user input]
 
 This chapter is divided into subchapters according to the above responsibilities. So, we will start with exploring the control flow methods {{{start}}} and {{{exit}}}, advance to the entry point responsibility and end with the validation of user input.
 
