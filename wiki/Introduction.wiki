@@ -9,11 +9,11 @@ Before getting to the interesting stuff, please not that this document is a livi
 Welcome to the ai-ludo project. This project is developed under the GNU GPL 3. The developers are Dominique Ritze and Gregor Trefs, both students of the University of Mannheim. The game is being developed complementary to the lecture "Artficial Intelligence". This short wiki page should give you an overview of the basic program structure. The program itself can be found under [http://code.google.com/p/ai-ludo/source/checkout source]. Following topics are covered:
 
   * [Introduction#MVC_as_the_primary_pattern MVC as the primary pattern]
-  * [Introduction#Ludo_the_controller {{{Ludo}}} the controller]
+  * [Introduction#Ludo_the_controller Ludo the controller]
   * [Introduction#Game_rules_and_their_implementation Game rules and their implementation]
-    * [Introduction#The_IntentDispatcher_as_central_command_executer The {{{IntentDispatcher}}} as central command executer]
+    * [Introduction#The_IntentDispatcher_as_central_command_executer The IntentDispatcher as central command executer]
   * [Introduction#Views_and_rendering Views and rendering]
-  * [Introduction#The_Player_interface The {{{Player}}} interface]
+  * [Introduction#The_Player_interface The Player interface]
 
 If you are just interested in developing an AI player for the game, you can leave out the first two topics and advance to the chapter "The {{{Player}}} interface". The topics are discussed in the order given by the list above.
 
@@ -26,11 +26,11 @@ In our case, we just keep to the simple idea of separating the concerns. Therefo
 ={{{Ludo}}} the controller=
 As said in the [Introduction#Introduction], the {{{Ludo}}} class reflects the Controller element of the MVC pattern. It covers following responsibilities:
   * [Introduction#Control_flow_methods Control flow methods]
-    * [Introduction#start {{{start}}}]
-    * [Introduction#exit {{{exit}}}]  
+    * [Introduction#start start]
+    * [Introduction#exit exit]  
   * [Introduction#Entry_point_of_the_application Entry point of the application]
-    * "Merging" of View and Model
-    * Starting up the {{{IntentDispatcher}}}
+    * Merging of View and Model
+    * Starting up the IntentDispatcher
   * Validation of user input
 
 This chapter is divided into subchapters according to the above responsibilities. So, we will start with exploring the control flow methods {{{start}}} and {{{exit}}}, advance to the entry point responsibility and end with the validation of user input.
@@ -39,7 +39,9 @@ This chapter is divided into subchapters according to the above responsibilities
 ===start===
 ===exit===
 ==Entry point of the application==
-==="Merging" of View and Model===
+===Merging of View and Model===
+===Starting up the IntentDispatcher===
+==Validation of user input==
 
 =Game rules and their implementation=
 ==The {{{IntentDispatcher}}} as central command executer==
