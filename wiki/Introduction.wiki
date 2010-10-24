@@ -24,7 +24,7 @@ The Model View Controller pattern is a pattern for which many interpretations ex
 In our case, we just keep to the simple idea of separating the concerns. Therefore,  the {{{Ludo}}} class represents the controller, the {{{Game}}} class represents the main model class and the {{{View}}} interface represents the view. The {{{Game}}} class publishes two kind of events namely, {{{NotficationEvent}}} and {{{RequestForUserInputEvent}}}. The {{{NotficationEvent}}} is for information purposes and leads to a view update. On the other hand, the {{{RequestForUserInputEvent}}} requires user input (e.g. Player names) before the game can advance. Further, the {{{Game}}} class provides registration methods for any interrested party. The {{{Ludo}}} class contains the main method, sets up the game and validates the user input. The {{{View}}} interface should be implemented by any class which wants to display something. Currently (with code revision r8), there is one view available: {{{ShellView}}}. It simply prints out the events which occur on the current shell. 
 
 ={{{Ludo}}} the controller=
-As said in the [Introduction#Introduction], the {{{Ludo}}} class reflects the Controller element of the MVC pattern. It covers following responsibilities:
+As said in the [Introduction#Introduction Introduction], the {{{Ludo}}} class reflects the Controller element of the MVC pattern. It covers following responsibilities:
   * [Introduction#Control_flow_methods Control flow methods]
     * [Introduction#start start]
     * [Introduction#exit exit]  
