@@ -4,3 +4,6 @@
   2. Next Steps: Implementation of agents
      2.1 Which agents to use with Ludo?: Random, Search, Neural Networks, Logical Agent
   3. Next Meeting: Friday, 29. Oct. 2010
+
+== 26.10.2010: Skype meeting == 
+Talk about required methods to implement the agents.
