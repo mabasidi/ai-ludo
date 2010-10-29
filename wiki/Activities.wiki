@@ -9,7 +9,7 @@
 Talk about required methods to implement the agents.
 
 == 29.10.2010: Meeting to discuss the AI implementation ==
-  # One implementation should have a utility function, in order to measure the expected utility of a move.
+One implementation should have a utility function, in order to measure the expected utility of a move.
     # Following actions should result into positive utility:
       * Beat other player
       * Get into position where other pawn is potentially beatable next round
