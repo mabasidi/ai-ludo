@@ -16,6 +16,9 @@
  */
 package de.uni_mannheim.informatik.ai.ludo.model.ai;
 
+import de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo.GeneticUtility;
+import de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo.Individual;
+import de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo.SimpleUtilityFunction;
 import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory;
 import de.uni_mannheim.informatik.ai.ludo.intent.PlayerIntent;
 import de.uni_mannheim.informatik.ai.ludo.model.Game;
@@ -28,10 +31,13 @@ import de.uni_mannheim.informatik.ai.ludo.view.renderer.Renderer;
 import java.util.ArrayList;
 
 /**
- * This artificial Player is a random player which acts randomly.
- * @author gtrefs
+ * This artificial Player which uses a utility function to evaluate the game states.
+ * In this case the values of the terms of the utility function are determined
+ * by using a genetic algorithm. 
+ *
+ * @author Dominique Ritze
  */
-public class Player1 implements Player{
+public class GeneticPlayer implements Player{
 
     private Pawn[] pawns;
     private ArrayList<Pawn> possiblePawns = new ArrayList<Pawn>();
@@ -41,7 +47,7 @@ public class Player1 implements Player{
     private Individual individual;
     private Pawn pawnToMove;
 
-    public Player1() {
+    public GeneticPlayer() {
         this.individual = GeneticUtility.randomIndividual();
     }
 
@@ -56,6 +62,11 @@ public class Player1 implements Player{
     }
 
     @Override
+    /**
+     * Tries to move the pawn which results in the best possible
+     * following state. Therefore every pawn is evaluated and the one
+     * with the best score is taken.
+     */
     public void movePawn() {
         double maximalValue = -100;
         pawnToMove = this.possiblePawns.get(0);
@@ -70,8 +81,6 @@ public class Player1 implements Player{
         }
         //move the pawn
         IntentFactory.getInstance().createAndDispatchMoveIntent(Game.getInstance(), pawnToMove);
-    //    randomPawn = pawns[(int)(100*Math.random()%pawns.length)];
-    //    IntentFactory.getInstance().createAndDispatchMoveIntent(Game.getInstance(), randomPawn);
     }
 
     @Override

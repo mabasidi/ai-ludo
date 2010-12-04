@@ -15,15 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.uni_mannheim.informatik.ai.ludo.model.ai;
+package de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo;
 import de.uni_mannheim.informatik.ai.ludo.model.Pawn;
 
 /**
  *
  * @author Dominique Ritze
+ *
+ * The utility function is used to evaluate possible following game states.
+ * In order to determine the best possible following state, the possible
+ * moves must be evaluated. Therefore a score is assigned to each possible
+ * move. This interface is used to provide an uniform way such that all
+ * utility functions are forced to implement a method to score the pawns.
+ *
  */
 public interface UtilityFunction {
 
+    /**
+     * Computes a score for a given pawn.
+     * Afterwards the pawn with the highest score will be moved.
+     *
+     * @param pawn Possible pawn to move.
+     * @return The core of the pawn.
+     */
     public double getScore(Pawn pawn);
 
 }
