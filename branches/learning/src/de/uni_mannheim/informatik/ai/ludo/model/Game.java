@@ -19,8 +19,6 @@ package de.uni_mannheim.informatik.ai.ludo.model;
 import de.uni_mannheim.informatik.ai.ludo.exceptions.ColorException;
 import de.uni_mannheim.informatik.ai.ludo.intent.Intent;
 import de.uni_mannheim.informatik.ai.ludo.intent.IntentFactory;
-import de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo.GeneticUtility;
-import de.uni_mannheim.informatik.ai.ludo.model.ai.geneticAlgo.Individual;
 import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEvent;
 import de.uni_mannheim.informatik.ai.ludo.model.events.NotificationEventListener;
 import de.uni_mannheim.informatik.ai.ludo.model.events.RequestForUserInputEvent;
@@ -133,7 +131,7 @@ public class Game implements Renderable {
         gamesPlayed++;
     }
 
-    public void endGame() {       
+    public void endGame() {
        System.exit(0);
         // Some crucial cleanup
     }
